@@ -1,0 +1,1 @@
+{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"sg-ap","Source":"./modules/applications","Dir":"modules/applications"},{"Key":"sg-es","Source":"./modules/elasticsearch","Dir":"modules/elasticsearch"}]}
