@@ -35,6 +35,30 @@ resource "scaleway_instance_server" "instance" {
   ip_id                 = scaleway_instance_ip.public_ip[count.index].id
   additional_volume_ids = [scaleway_instance_volume.volume[count.index].id]
   security_group_id     = "${count.index}" == 3 ?  module.sg-ap.sg_id : module.sg-es.sg_id 
+
+ provisionner "local-exec"{
+    inline = [
+     "sudo apt-get update",
+     "sudo apt-get install apt-transport-https ca-certificates curl software-properties-common",
+     "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -",
+     "sudo apt-key fingerprint 0EBFCD88",
+     "sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable",
+     "sudo apt-get update",
+     "sudo apt-get install docker-ce",     
+    ]
+
+
+    connection {
+      type = "ssh"
+      user = "root"
+      host = "self.ip_id"
+#      host = "${scaleway_ip.swarm_manager_ip.0.ip}"
+    }
+
+
+
+ }
+
 }
 
 
